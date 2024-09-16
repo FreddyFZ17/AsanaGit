@@ -1,0 +1,109 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 1,
+    "passes": 0,
+    "pending": 0,
+    "failures": 1,
+    "start": "2024-09-16T03:24:28.523Z",
+    "end": "2024-09-16T03:24:51.270Z",
+    "duration": 22747,
+    "testsRegistered": 1,
+    "passPercent": 0,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "24264e46-3730-41ce-a87f-4732951aa3cf",
+      "title": "",
+      "fullFile": "cypress\\e2e\\login\\TC2.cy.js",
+      "file": "cypress\\e2e\\login\\TC2.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "b49b8150-2ce6-4995-a13c-52df17d0ffda",
+          "title": "F1: Tareas",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "TC1: Verificar que se pueda crear una tarea nueva",
+              "fullTitle": "F1: Tareas TC1: Verificar que se pueda crear una tarea nueva",
+              "timedOut": null,
+              "duration": 20866,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "cy.visit(\"https://app.asana.com/-/login\");\n_login_page.loginPage.enterEmail(\"freddyfernandez778@gmail.com\");\n_login_page.loginPage.clickContinue();\n_login_page.loginPage.enterPassword(\"password1707\");\n_login_page.loginPage.clickLogin();\n_tarea_page.tareaPage.clickMyTasks();\n_tarea_page.tareaPage.clickDetailsTask();\n_tarea_page.tareaPage.clickAddNewAdmin();\n_tarea_page.tareaPage.typeNewAdminAndPressEnter(\"NewAdmin1@gmail.com\");\n_tarea_page.tareaPage.clickCloseDetailButton();",
+              "err": {
+                "message": "AssertionError: Timed out retrying after 4000ms: expected '<div.ThemeableIconButtonPresentation--isEnabled.ThemeableIconButtonPresentation.ThemeableIconButtonPresentation--medium.SubtleIconButton--standardTheme.SubtleIconButton.SpreadsheetGridTaskNameAndDetailsCellGroup-detailsButton>' to be 'visible'\n\nThis element `<div.ThemeableIconButtonPresentation--isEnabled.ThemeableIconButtonPresentation.ThemeableIconButtonPresentation--medium.SubtleIconButton--standardTheme.SubtleIconButton.SpreadsheetGridTaskNameAndDetailsCellGroup-detailsButton>` is not visible because it has CSS property: `opacity: 0`",
+                "estack": "AssertionError: Timed out retrying after 4000ms: expected '<div.ThemeableIconButtonPresentation--isEnabled.ThemeableIconButtonPresentation.ThemeableIconButtonPresentation--medium.SubtleIconButton--standardTheme.SubtleIconButton.SpreadsheetGridTaskNameAndDetailsCellGroup-detailsButton>' to be 'visible'\n\nThis element `<div.ThemeableIconButtonPresentation--isEnabled.ThemeableIconButtonPresentation.ThemeableIconButtonPresentation--medium.SubtleIconButton--standardTheme.SubtleIconButton.SpreadsheetGridTaskNameAndDetailsCellGroup-detailsButton>` is not visible because it has CSS property: `opacity: 0`\n    at clickElementForce (webpack://prueba/./cypress/support/pages/functions.cy.js:14:29)\n    at TareaPage.clickDetailsTask (webpack://prueba/./cypress/support/pages/tarea_page.cy.js:49:26)\n    at Context.eval (webpack://prueba/./cypress/e2e/login/TC2.cy.js:12:18)",
+                "diff": null
+              },
+              "uuid": "e0723899-c4be-43fb-8275-6780590be037",
+              "parentUUID": "b49b8150-2ce6-4995-a13c-52df17d0ffda",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [],
+          "failures": [
+            "e0723899-c4be-43fb-8275-6780590be037"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 20866,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.0.1"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/reports",
+        "overwrite": false,
+        "html": true,
+        "json": true
+      },
+      "version": "6.2.0"
+    }
+  }
+}
