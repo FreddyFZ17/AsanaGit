@@ -1,0 +1,105 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 1,
+    "passes": 1,
+    "pending": 0,
+    "failures": 0,
+    "start": "2024-09-16T03:25:48.275Z",
+    "end": "2024-09-16T03:25:55.063Z",
+    "duration": 6788,
+    "testsRegistered": 1,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "c34a1328-ab22-4979-bc01-89d3d39b96d7",
+      "title": "",
+      "fullFile": "cypress\\e2e\\login\\tc3.cy.js",
+      "file": "cypress\\e2e\\login\\tc3.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "7b2cee2d-6196-4827-a465-134da6cee30d",
+          "title": "F0: Login",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Iniciar Sesion Exitosamente",
+              "fullTitle": "F0: Login Iniciar Sesion Exitosamente",
+              "timedOut": null,
+              "duration": 5095,
+              "state": "passed",
+              "speed": "medium",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.visit(\"https://app.asana.com/-/login\");\n//loginPage.enterEmail(\"freddyfernandez778@gmail.com\");\n//cy.get(\"div[class='ValidatedInput']>input\").should('have.value', 'freddyfernandez778@gmail.com');\ncy.get(\"div[class='ValidatedInput']>input\").type(\"freddyfernandez778@gmail.com{enter}\");",
+              "err": {},
+              "uuid": "d0c79f1d-9b36-4a45-bd4c-981d220e4f07",
+              "parentUUID": "7b2cee2d-6196-4827-a465-134da6cee30d",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "d0c79f1d-9b36-4a45-bd4c-981d220e4f07"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 5095,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.0.1"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/reports",
+        "overwrite": false,
+        "html": true,
+        "json": true
+      },
+      "version": "6.2.0"
+    }
+  }
+}
