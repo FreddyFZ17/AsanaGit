@@ -1,5 +1,4 @@
-import {getTextFromText, typeAndPressEnter, rightClickElement, typeText, clickElement, clickElementForce, clearAndTypeText, verifyTaskExists, verifyTextEquals, clickAndType, clickSelectorTypeTextAndPressEnter, verifyTextInMultipleElements ,verifyDeleteTask} from './functions.cy.js';
-
+import Utils from '../utils.cy.js';
 
 class TareaPage {
     
@@ -7,7 +6,7 @@ class TareaPage {
             MyTaskButton: () => cy.get("div[class='Sidebar SidebarResizableContainer-sidebar']>nav>div:nth-child(2)>a"),
             AddTaskButton: () => cy.get("div[class='PrimarySplitDropdownMenuButtonA11y AddTaskDropdownButton']>div:nth-child(1)"),
             DetailsTaskButton: () => cy.get("div[class='SpreadsheetTaskList SpreadsheetPotGridContents-taskList']>div:nth-child(2)>div>div>div>div>div>div:nth-child(5)>div>div:nth-child(2)"),
-            TitleText: () => cy.get("div[class='AutogrowTextarea-container TitleInput-objectName']>textarea"),
+            TitleText: () => cy.get("div[class='SpreadsheetTaskList SpreadsheetPotGridContents-taskList']>div:nth-child(2)>div>div>div>div>div>label>textarea"),
             FirstTaskInList:() => cy.get("div[class='TaskGroup']>div>div:nth-child(2)>div>div>div>div>div>label>textarea"),
             DescriptionText: () => cy.get("div[data-testid='task-description-tec']>div[contenteditable]"),
             CloseDetailButton: () => cy.get("svg[class='Icon CloseIcon']"),
@@ -18,12 +17,36 @@ class TareaPage {
             FilterButton: () => cy.get("div[class='PageToolbarStructure-rightChildren']>div:nth-child(1)"),
             CompletedTaskFilterButton: () => cy.get("div[class='MultiFilterQuickFilterCompletionDropdownButton']>div:nth-child(1)"),
             UnfinishedTaskFilterButton: () => cy.get("ul[class='MultiFilterQuickFiltersRefreshed-content']>li:nth-child(1)>div"),
+            ForThisWeekFilterButton:()=>cy.get("ul[class='MultiFilterQuickFiltersRefreshed-content']>li:nth-child(3)>div"),
+            ForNextWeekFilterButton:()=>cy.get("ul[class='MultiFilterQuickFiltersRefreshed-content']>li:nth-child(4)>div"),
             TaskArea: () => cy.get("div[class='DropTargetRow--inSpreadsheetGrid DropTargetRow MyTasksSpreadsheetGridRow-dropTargetRow']:nth-child(2)"),
-            DeleteTaskOption: () => cy.get("div[data-testid='layer-positioner-layer']>div>div>a:nth-child(12)"),
+            DeleteTaskOption: () => cy.get("div[class='Dropdown']>div>div>div:nth-child(12)>div"),
             PopUpConfirmDeleteTask: () => cy.get("div[class='ToastNotificationContent']>div:nth-child(2)"),
             AddOrDeleteMenberButton:()=> cy.get("div[class='FollowersList EditableFollowersRow-followersList']>div:nth-child(4)"),
             NewAdminButton: ()=> cy.get("div[class='ToastNotificationContent-text']>span[aria-hidden='true']"),
             NewAdmindText: () => cy.get("div[class='DomainUserSelectorTokenTypeahead']>input"),
+            GroupTaskButton: ()=> cy.get("div[class='PageToolbarStructure-rightChildren']>div:nth-child(3)"),
+            GroupBySectionsOption:()=>cy.get("div[data-testid='layer-positioner-layer']>div>div>div:nth-child(1)>div"),
+            GroupByDeliveryDateOption:()=>cy.get("div[data-testid='layer-positioner-layer']>div>div>div:nth-child(2)>div"),
+            GroupByCreator:()=>cy.get("div[data-testid='layer-positioner-layer']>div>div>div:nth-child(3)>div"),
+            GroupByProject:()=>cy.get("div[data-testid='layer-positioner-layer']>div>div>div:nth-child(4)>div"),
+            DeleteFilterGroupButton:()=>cy.get("div[class='MultiSortFilterHeader']>div:nth-child(2)>div"),
+            AddSectionButton:()=>cy.get("div[class='Scrollable Scrollable--horizontal SpreadsheetGridScroller-horizontalScroller']>div:nth-child(2)>div[role]"),
+            NameCreatorTasks:()=>cy.get("div[class='DomainUserHeaderContents']"),
+            DuplicateTaskOption:()=>cy.get("a[data-testid='static-menu-item-base']:nth-child(1)"),
+            CreateNewTaskDuplicate:()=>cy.get("div[class='DuplicateObjectDialogStructure-confirmButton']>div"),
+            DeliveryDateButton:()=>cy.get("div[id='task_pane_due_date_input']"),
+            DeliveryDateText:()=>cy.get("input[id='due_date_input_id_select']"),
+            DashboardViewButton:()=>cy.get("nav[class='TabNavigationBar']>ul>li:nth-child(2)>a"),
+            ListViewButton:()=>cy.get("nav[class='TabNavigationBar']>ul>li:nth-child(1)>a"),
+            DeleteFiltersButton:()=>cy.get("div[class='MultiSortFilterHeader']>div:nth-child(2)>div"),
+            SeeDetailsTaskOption:()=>cy.get("a[data-testid='static-menu-item-base']:nth-child(8)"),
+            AddProjectToTaskButton:()=>cy.get("div[class='TaskProjects-projects']>div"),
+            AddProjectToTaskText:()=>cy.get("div[class='TaskProjects-typeaheadContainer']>input"),
+            SeeDetailsToTaskOption:()=>cy.get("div[class='Dropdown']>div>div>div:nth-child(8)>div"),
+
+            NameTaskList:()=>cy.get("div[class='SpreadsheetTaskName-shadow']"),
+            NameGroupsSection:()=>cy.get("div[class='DropTargetTaskGroupHeader']>div>div>div>div"),
             //AssignMultipleAdminsOptions: ()=> cy.get("div[data-testid='layer-positioner-layer']>div>div:nth-child(2)>div"),
             //AssignNewAdminToTaskText: ()=> cy.get("input[data-testid='tokenizer-input']"),
             //AssignTaskToNewAdminButton: () => cy.get("div[class='MultiAssignPopup-content']>div>div:nth-child(3)>div:nth-child(2)"),
@@ -34,122 +57,145 @@ class TareaPage {
         };
 
     //functionstask
+
+    createTask({ name, dueDate = null, isCompleted = false }) {
+        this.clickAddTask();
+        this.typeTitleText(name);
+        this.clickDetailsTask();
+    
+        if (dueDate) {
+            Utils.clickElement(this.elements.DeliveryDateButton());
+            Utils.typeAndPressEnter(this.elements.DeliveryDateText(), dueDate);
+        }
+    
+        if (isCompleted) {
+            this.clickFinishTaskButton();
+        }
+    
+        this.clickCloseDetailButton();
+        Utils.clickElement(this.elements.DashboardViewButton());
+        Utils.clickElement(this.elements.ListViewButton());
+        cy.wait(1000);
+    }
+
+    DeleteTask(name){
+        this.clickFilterButton();
+        Utils.clickElement(tareaPage.elements.DeleteFiltersButton());
+        Utils.searchElementByTextAndRightClick(this.elements.NameTaskList(), name);
+        Utils.clickElement(this.elements.DeleteTaskOption());
+    }
     //crear eliminar, 
 
     // CLICK ACTIONS
     clickMyTasks() {
-        clickElement(this.elements.MyTaskButton());
+        Utils.clickElement(this.elements.MyTaskButton());
     }
 
     clickAddTask() {
-        clickElement(this.elements.AddTaskButton());
+        Utils.clickElement(this.elements.AddTaskButton());
     }
 
     clickDetailsTask() {
-        clickElementForce(this.elements.DetailsTaskButton()); // Utilizar clic forzado
+        Utils.clickElementForce(this.elements.DetailsTaskButton()); // Utilizar clic forzado
     }
 
     clickCloseDetailButton() {
-        clickElement(this.elements.CloseDetailButton());
+        Utils.clickElement(this.elements.CloseDetailButton());
     }
 
     clickMakePublicTaskButton() {
-        clickElement(this.elements.MakePublicTaskButton());
+        Utils.clickElement(this.elements.MakePublicTaskButton());
     }
 
     clickFinishTaskButton() {
-        clickElement(this.elements.FinishTaskButton());
+        Utils.clickElement(this.elements.FinishTaskButton());
     }
 
     clickFilterButton() {
-        clickElement(this.elements.FilterButton());
+        Utils.clickElement(this.elements.FilterButton());
     }
 
     clickCompletedTaskFilterButton() {
-        clickElementForce(this.elements.CompletedTaskFilterButton());
+        Utils.clickElementForce(this.elements.CompletedTaskFilterButton());
     }
 
     clickUnifinishedTaskFilterButton(){
-        clickElement(this.elements.UnfinishedTaskFilterButton());
+        Utils.clickElement(this.elements.UnfinishedTaskFilterButton());
     }
 
     clickDeleteTaskOption(){
-        clickElement(this.elements.DeleteTaskOption());
+        Utils.clickElement(this.elements.DeleteTaskOption());
     }
 
     rightClickAndSeeOptionsTask(){
-        rightClickElement(this.elements.TaskArea());
+        Utils.rightClickElement(this.elements.TaskArea());
     }
 
     clickAssignNewAdminToTask(){
-        clickElement(this.elements.AssignTaskToNewAdminButton());
+        Utils.clickElement(this.elements.AssignTaskToNewAdminButton());
     }
 
     clickAddNewAdmin() {
-        clickElement(this.elements.NewAdminButton());
+        Utils.clickElement(this.elements.NewAdminButton());
     }    
     
     clickAndTypeNewMenber(text){
-        clickSelectorTypeTextAndPressEnter(this.elements.AddOrDeleteMenberButton(),text)
+        Utils.clickSelectorTypeTextAndPressEnter(this.elements.AddOrDeleteMenberButton(),text)
     }
 
     
 
     // TYPE ACTIONS
-    typeTitleTex(text){
-        typeText(this.elements.TitleText(), text);
+    typeTitleText(text){
+        Utils.typeText(this.elements.TitleText(), text);
     }
 
     typeDescriptionTex(text){
-        typeText(this.elements.DescriptionText(), text);
+        Utils.typeText(this.elements.DescriptionText(), text);
     }
 
     clearAndTypeTitleText(text) {
-        clearAndTypeText(this.elements.TitleText(), text);
+        Utils.clearAndTypeText(this.elements.TitleText(), text);
     }
 
     clearAndTypeDescriptionText(text) {
-        clearAndTypeText(this.elements.DescriptionText(), text);
+        Utils.clearAndTypeText(this.elements.DescriptionText(), text);
     }
 
     clearAndTypeCommentText(text) {
-        clearAndTypeText(this.elements.CommentTaskText(), text);
+        Utils.clearAndTypeText(this.elements.CommentTaskText(), text);
     }
 
     typeCommentText(text){
-        typeText(this.elements.CommentTaskText(),text);
-    }
-
-    typeNewMenberTotask(text){
-
+        Utils.typeText(this.elements.CommentTaskText(),text);
     }
 
     typeNewAdminAndPressEnter(text){
-        typeAndPressEnter(this.elements.NewAdmindText(), text);
+        Utils.typeAndPressEnter(this.elements.NewAdmindText(), text);
     }
 
     // VERIFY ACTIONS
     verifyTaskExistsinUnfinishedTasks(taskName) {
-        verifyTextInMultipleElements(this.elements.TasksUnfinished(), taskName);
+        Utils.verifyTextInMultipleElements(this.elements.TasksUnfinished(), taskName);
     }
 
     verifyLastTaskExistCreatedIs(taskName){
-        verifyTextEquals(this.elements.FirstTaskInList(), taskName)
+        Utils.verifyTextEquals(this.elements.FirstTaskInList(), taskName)
     }
 
     verifyLastChanges(taskname, description, comment){
-        verifyTextEquals(this.elements.TitleText(),taskname);
-        verifyTextEquals(this.elements.DescriptionText(), description);
-        verifyTextEquals(this.elements.CommentTaskText(), comment);
-        verifyElementTextEquals(this.elements.MakePrivateTaskButton, "Hacer privado");
+        Utils.verifyTextEquals(this.elements.TitleText(),taskname);
+        Utils.verifyTextEquals(this.elements.DescriptionText(), description);
+        Utils.verifyTextEquals(this.elements.CommentTaskText(), comment);
+        Utils.verifyElementTextEquals(this.elements.MakePrivateTaskButton, "Hacer privado");
     }
     
     verifyLastTaskCompleted(taskname){
-        verifyTextEquals(this.elements.FirstTaskInList(),taskname)
+        Utils.verifyTextEquals(this.elements.FirstTaskInList(),taskname)
     }
 
     verifyDeleteTask() {
-        verifyDeleteTask(this.elements.PopUpConfirmDeleteTask(), "Deshacer"); 
+        Utils.verifyDeleteTask(this.elements.PopUpConfirmDeleteTask(), "Deshacer"); 
     }
 
     verifyNewAminIs(){
@@ -158,7 +204,7 @@ class TareaPage {
 
     //SAVE ELEMENTS
     saveFirstTitleTask() {
-        getTextFromText(this.elements.FirstTaskInList());
+        Utils.getTextFromText(this.elements.FirstTaskInList());
     }
 
 }

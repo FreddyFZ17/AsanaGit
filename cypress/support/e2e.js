@@ -12,8 +12,10 @@
 // You can read more here:
 // https://on.cypress.io/configuration
 // ***********************************************************
-
 // Handle uncaught exceptions globally
+import "./commands";
+import '@shelex/cypress-allure-plugin';
+import 'cypress-mochawesome-reporter/register';
 Cypress.on('uncaught:exception', (err, runnable) => {
     // Ignore the ResizeObserver error
     if (err.message.includes('ResizeObserver loop completed with undelivered notifications')) {
@@ -22,8 +24,19 @@ Cypress.on('uncaught:exception', (err, runnable) => {
     return true; // Allows Cypress to handle other errors normally
 });
 
+Cypress.on('uncaught:exception', (err, runnable) => {
+  // Ignorar errores relacionados con $CORE_PERF_START_SESSION_EXPERIMENT_PARALLELIZATION
+  if (err.message.includes('$CORE_PERF_START_SESSION_EXPERIMENT_PARALLELIZATION is not defined')) {
+    return false; // Prevenir que Cypress falle la prueba
+  }
+  
+  // Permitir que Cypress falle en caso de otros errores
+  return true;
+});
+
   // Import commands.js using ES2015 syntax:
-import './commands'
+
+
 
   // Alternatively you can use CommonJS syntax:
   // require('./commands')

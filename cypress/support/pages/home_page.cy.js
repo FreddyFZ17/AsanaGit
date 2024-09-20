@@ -1,5 +1,4 @@
-import {getTextFromText, typeAndPressEnter, rightClickElement, typeText, clickElement, clickElementForce, clearAndTypeText, verifyTaskExists, verifyTextEquals, clickAndType, clickSelectorTypeTextAndPressEnter, verifyTextInMultipleElements ,verifyDeleteTask} from './functions.cy.js';
-
+import Utils from '../utils.cy.js';
 
 class HomePage {
     
@@ -18,30 +17,30 @@ class HomePage {
 
     // CLICK ACTIONS
     clickHomePage() {
-        clickElement(this.elements.HomeButton());
+        Utils.clickElement(this.elements.HomeButton());
     }
 
     clickLastProjectCreatedButton(){
-        clickElementForce(this.elements.LastProjectCreatedButton());
+        Utils.clickElementForce(this.elements.LastProjectCreatedButton());
     }
 
     // TYPE ACTIONS
     typeTitleTex(text){
-        typeText(this.elements.TitleText(), text);
+        Utils.typeText(this.elements.TitleText(), text);
     }
 
     // VERIFY ACTIONS
     verifyTaskExistsinUnfinishedTasks(taskName) {
-        verifyTextInMultipleElements(this.elements.TasksUnfinished(), taskName);
+        Utils.verifyTextInMultipleElements(this.elements.TasksUnfinished(), taskName);
     }
 
     verifyLastProjectCreatedIs(text){
-        verifyTextEquals(this.elements.LastProjecCreatedtName(), text);
+        Utils.verifyTextEquals(this.elements.LastProjecCreatedtName(), text);
     }
 
     //SAVE ELEMENTS
     saveFirstTitleTask() {
-        getTextFromText(this.elements.FirstTaskInList());
+        Utils.getTextFromText(this.elements.FirstTaskInList());
     }
 
 }

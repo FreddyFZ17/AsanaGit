@@ -1,1 +1,41 @@
-node_modules
+# Node modules
+node_modules/
+
+# Logs
+logs
+*.log
+
+# MacOS files
+.DS_Store
+
+# Coverage directory used by tools like istanbul
+coverage/
+
+# Cypress artifacts
+cypress/screenshots/
+cypress/videos/
+allure-results/
+allure-report/
+
+# Build outputs
+dist/
+build/
+
+# Environment variables
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+
+# NPM package lock file (optional)
+package-lock.json
+
+# IDE specific files
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# System files
+Thumbs.db
