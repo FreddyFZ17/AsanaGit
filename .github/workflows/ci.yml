@@ -3,10 +3,10 @@ name: CI - Cypress Tests
 on:
   push:
     branches:
-      - development # Ejecuta en cada push al branch development
+      - GitHubActions # Ejecuta en cada push al branch development
   pull_request:
     branches:
-      - development # Ejecuta en cada PR al branch development
+      - GitHubActions # Ejecuta en cada PR al branch development
 
 jobs:
   cypress-run:
