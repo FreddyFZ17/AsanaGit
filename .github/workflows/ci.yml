@@ -40,7 +40,7 @@ jobs:
       - name: Generate Allure report
         run: |
           npm run allure:report
-        if: always()
+        if: always() # Siempre se ejecuta, sin importar si falla o no
 
       - name: Upload Allure Report
         uses: actions/upload-artifact@v3
@@ -53,3 +53,9 @@ jobs:
         with:
           name: Cypress Screenshots and Videos
           path: cypress/screenshots
+
+      - name: Notify failure
+        if: failure() # Este paso se ejecuta solo si alguno de los anteriores falla
+        run: |
+          echo "Algunas pruebas han fallado. Revisa los logs."
+          # Aquí puedes añadir un comando para enviar una notificación a Slack, correo, etc.
