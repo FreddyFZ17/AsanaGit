@@ -14,8 +14,8 @@
 // ***********************************************************
 // Handle uncaught exceptions globally
 import "./commands";
-import '@shelex/cypress-allure-plugin';
-import 'cypress-mochawesome-reporter/register';
+import "@shelex/cypress-allure-plugin";
+
 Cypress.on('uncaught:exception', (err, runnable) => {
     // Ignore the ResizeObserver error
     if (err.message.includes('ResizeObserver loop completed with undelivered notifications')) {
