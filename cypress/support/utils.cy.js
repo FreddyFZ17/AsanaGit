@@ -114,6 +114,7 @@ class Utils {
             }
         });
     }
+    //Hola2
 }
 //hola
 export default new Utils();
