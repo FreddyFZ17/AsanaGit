@@ -22,5 +22,5 @@ describe("F0: Login", () => {
         loginPage.enterPassword(data.loginData.wrongPassword);
         loginPage.clickLogin();
         loginPage.verifyInvalidPassword();
-    });
+    });//
 });

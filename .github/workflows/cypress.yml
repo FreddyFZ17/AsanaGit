@@ -3,7 +3,7 @@ name: Cypress Tests
 on:
   push:
     branches:
-      - 'githubActions_and _Allure'
+      - 'githubActions_and_Allure'  # Corrige aquí
   pull_request:
     branches:
       - 'githubActions_and_Allure'
@@ -19,7 +19,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '16' # Cambia según la versión de Node que estés usando
+          node-version: '20.15.1'  # Cambia a la versión 20.15.1
 
       - name: Install dependencies
         run: npm install
@@ -28,13 +28,13 @@ jobs:
         run: npm run allure:clear
 
       - name: Run Cypress tests
-        run: npm run ui-regression-allure # Ejecuta las pruebas con Allure habilitado
+        run: npm run ui-regression-allure  # Ejecuta las pruebas con Allure habilitado
 
       - name: Generate Allure report
-        run: npm run allure:report # Genera el informe de Allure
+        run: npm run allure:report  # Genera el informe de Allure
 
       - name: Upload Allure report
         uses: actions/upload-artifact@v2
         with:
           name: allure-report
-          path: allure-report/ # Asegúrate de que esta ruta sea correcta
+          path: allure-report/  # Asegúrate de que esta ruta sea correcta
