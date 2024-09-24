@@ -14,12 +14,12 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3  # Actualizado a la versión más reciente
 
       - name: Set up Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3  # Actualizado a la versión más reciente
         with:
-          node-version: '20'  # Cambia a la versión 20.15.1
+          node-version: '20'  # Versión de Node.js que estás utilizando
 
       - name: Install dependencies
         run: npm install
@@ -34,7 +34,7 @@ jobs:
         run: npm run allure:report
 
       - name: Upload Allure report
-        uses: actions/upload-artifact@v3  # Actualizado a la versión más reciente
+        uses: actions/upload-artifact@v3
         with:
           name: allure-report
           path: allure-report/
