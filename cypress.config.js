@@ -10,6 +10,8 @@ module.exports = defineConfig({
     saveAllAttempts: false,
   },
   e2e: {
+    defaultCommandTimeout: 15000, // Ajusta según sea necesario
+    pageLoadTimeout: 60000,
     setupNodeEvents(on, config) {
       // implement node event listeners here
 
