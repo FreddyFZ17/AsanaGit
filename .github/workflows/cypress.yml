@@ -14,12 +14,20 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3  # Cambiado a v3
+        uses: actions/checkout@v3
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3  # Cambiado a v3
+        uses: actions/setup-node@v3
         with:
-          node-version: '20' # Cambiado a la versión de Node que estás usando
+          node-version: '20.15.1'
+
+      - name: Cache Node.js modules
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
 
       - name: Install dependencies
         run: npm install
@@ -34,7 +42,7 @@ jobs:
         run: npm run allure:report
 
       - name: Upload Allure report
-        uses: actions/upload-artifact@v3  # Cambiado a v3
+        uses: actions/upload-artifact@v3
         with:
           name: allure-report
           path: allure-report/
