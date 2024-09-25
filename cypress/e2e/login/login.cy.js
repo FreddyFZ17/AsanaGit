@@ -9,7 +9,7 @@ describe("F0: Login", () => {
         loginPage.clickContinue();
         loginPage.enterPassword(data.loginData.password);
         loginPage.clickLogin();
-    });
+    });//
 
     it("TC : Inicio de Sesion Incorrecto", () => {
         cy.visit(data.URL);
