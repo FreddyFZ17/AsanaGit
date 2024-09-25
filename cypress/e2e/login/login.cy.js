@@ -1,25 +1,26 @@
 import { loginPage } from "../../support/pages/login_page.cy";
-
+import data from "../../fixtures/data.json";
 
 describe("F0: Login", () => {
-    it("Iniciar Sesion Exitosamente", () => {
-        cy.visit("https://app.asana.com/-/login");
-        loginPage.enterEmail("fernandezfreddy1707@gmail.com");
-        loginPage.clickContinue();
-        loginPage.enterPassword("password1707");
-        loginPage.clickLogin();
-    });
 
-    it("TC : Inicio de Sesion Incorrecto",()=>{
-        cy.visit("https://app.asana.com/-/login");
-        loginPage.enterEmail("correoinvalido");
+    it("Iniciar Sesion Exitosamente", () => {
+        cy.visit(data.URL);
+        loginPage.enterEmail(data.loginData.email);
         loginPage.clickContinue();
+        loginPage.enterPassword(data.loginData.password);
+        loginPage.clickLogin();
+    });//
+
+    it("TC : Inicio de Sesion Incorrecto", () => {
+        cy.visit(data.URL);
+        loginPage.enterEmail(data.loginData.wrongEmail);
+        loginPage.clickContinue();  
         loginPage.verifyInvalidEmail();
-        cy.visit("https://app.asana.com/-/login");
-        loginPage.enterEmail("fernandezfreddy1707@gmail.com");
+        cy.visit(data.URL);
+        loginPage.enterEmail(data.loginData.email);
         loginPage.clickContinue();
-        loginPage.enterPassword("InvalidPassword");
+        loginPage.enterPassword(data.loginData.wrongPassword);
         loginPage.clickLogin();
         loginPage.verifyInvalidPassword();
-    })
+    });
 });

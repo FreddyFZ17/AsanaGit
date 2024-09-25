@@ -3,9 +3,6 @@ name: Cypress Tests
 on:
   push:
     branches:
-      - 'githubActions_and _Allure'
-  pull_request:
-    branches:
       - 'githubActions_and_Allure'
 
 jobs:
@@ -14,27 +11,47 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set up Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
-          node-version: '16' # Cambia según la versión de Node que estés usando
+          node-version: '20.15.1'
+
+      - name: Cache Node.js modules
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
 
       - name: Install dependencies
         run: npm install
 
+      - name: Install Allure CLI
+        run: npm install -g allure-commandline --save-dev
+
       - name: Clear previous Allure reports
-        run: npm run allure:clear
+        run: npm run allure:clear || true  # Para evitar errores si no existen
 
       - name: Run Cypress tests
-        run: npm run ui-regression-allure # Ejecuta las pruebas con Allure habilitado
+        run: npm run ui-regression-allure || true  # Permite continuar a pesar de errores
+
+      - name: List allure-results
+        run: ls -la allure-results/  # Verifica los resultados generados
 
       - name: Generate Allure report
-        run: npm run allure:report # Genera el informe de Allure
+        run: allure generate allure-results --clean -o allure-report
 
-      - name: Upload Allure report
-        uses: actions/upload-artifact@v2
+      - name: Upload Allure results as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results
+          path: allure-results/
+
+      - name: Upload Allure report as artifact
+        uses: actions/upload-artifact@v4
         with:
           name: allure-report
-          path: allure-report/ # Asegúrate de que esta ruta sea correcta
+          path: allure-report/

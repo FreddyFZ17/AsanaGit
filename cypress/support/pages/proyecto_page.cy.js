@@ -31,7 +31,7 @@ class ProyectoPage {
         ProjectWithTemplateNameText:()=>cy.get("input[id='new_project_dialog_content_name_input']"),
         CreateProjectWithScheduletemplateButton:()=>cy.get("div[class='ProjectCreationFormStructure-submitButton ProjectCreationShiftDatesForm-backAndSubmit']>div:nth-child(2)"),
 
-
+        NameTasksList:()=>cy.get("div[class='SpreadsheetTaskName-shadow']"),
         NameTaskInScheduleList:()=>cy.get("div[class='TaskCell-name']"),
         SecondSectionToDashboard:()=>cy.get("div[class='BoardBody-columns']>div>div>div>div:nth-child(2)"),
         NameSectionListProject:()=>cy.get("button[class='PotColumnName-nameButton']"),
@@ -40,29 +40,30 @@ class ProyectoPage {
     };
 
     createSimpleProject(name){
-        this.clickOptionsProject();
-        this.clickNewProjectOption();
-        this.clickEmptyProjectOption();
-        this.typeNameProjectText(name);
-        this.clickCreateProjectButton();
+        Utils.clickElement(this.elements.NewProjectOrPortfolio());
+        Utils.clickElement(this.elements.NewProjectOption());
+        Utils.clickElement(this.elements.EmptyProjectOption());
+        Utils.typeText(this.elements.NameProjectText(), name);
+        Utils.clickElement(this.elements.CreateProjectButton());
         cy.wait(5000);
     }
 
     deleteProject(name){
         Utils.searchElementByTextAndClick(this.elements.ProjectListInNavVar(),name);
-        this.clickOptionsProjectButton();
-        this.clickDeleteProjectOption();
-        this.clickConfirmDeleteProject();
+        Utils.clickElement(this.elements.OptionsProjectButton());
+        Utils.clickElement(this.elements.DeleteProjectOption());
+        Utils.clickElement(this.elements.ConfirmDeleteProjectButton());
+        cy.wait(500);
     }
 
     createProjectWithTemplate(name, template){
-        this.clickOptionsProject();
-        this.clickNewProjectOption();
-        this.clickUseTemplateOption();
+        Utils.clickElement(this.elements.NewProjectOrPortfolio());
+        Utils.clickElement(this.elements.NewProjectOption());
+        Utils.clickElement(this.elements.UseTemplateOption());
         Utils.searchElementByTextAndClick(this.elements.TypeTemplateElement(), template);
-        this.clickUseTemplateButton();
+        Utils.clickElement(this.elements.UseTemplateButton());
         Utils.clearAndTypeText(this.elements.ProjectWithTemplateNameText(), name);
-        this.clickCreateProjectWithTemplateButton();
+        Utils.clickElement(this.elements.CreateProjectWithTemplateButton());
         if(template == "Cronograma"){
             Utils.clickElement(this.elements.CreateProjectWithScheduletemplateButton());
             cy.wait(42000);
@@ -74,113 +75,10 @@ class ProyectoPage {
         
     }
 
-    //CLICK ACTIONS
-    clickOptionsProject(){
-        Utils.clickElement(this.elements.NewProjectOrPortfolio());
-    }
-
-    clickNewProjectOption(){
-        Utils.clickElement(this.elements.NewProjectOption());
-    }
-
-    clickContinuePortfolioNameButton(){
-        Utils.clickElement(this.elements.ContinueAndGoToPortfolioButtom());
-    }
-
-    clickEmptyProjectOption(){
-        Utils.clickElement(this.elements.EmptyProjectOption());
-    }
-    
-    clickCreateProjectButton(){
-        Utils.clickElement(this.elements.CreateProjectButton());
-    }
-
-    clickOptionsProjectButton(){
-        Utils.clickElement(this.elements.OptionsProjectButton());
-    }
-
-    clickEditDetailsProjectOption(){
-        Utils.clickElement(this.elements.EditDetailsProjectOption());
-    }
-
-    clickCloseEditProjectDetails(){
-        Utils.clickElement(this.elements.CloseEdiDetailsProject())
-    }
-
-    clickDeleteProjectOption(){
-        Utils.clickElement(this.elements.DeleteProjectOption());
-    }
-
-    clickConfirmDeleteProject(){
-        Utils.clickElement(this.elements.ConfirmDeleteProjectButton());
-    }
-
-    clickUseTemplateOption(){
-        Utils.clickElement(this.elements.UseTemplateOption());
-    }
-
-    clickCalendarTemplate(){
-        Utils.clickElement(this.elements.UseCalendarTemplate());
-    }
-
-    clickUseTemplateButton(){
-        Utils.clickElement(this.elements.UseTemplateButton());
-    }
-
-    clickCreateProjectWithTemplateButton(){
-        Utils.clickElement(this.elements.CreateProjectWithTemplateButton());
-    }
-
-    clickAdminButton(){
-        Utils.clickElement(this.elements.AdminButton());
-    }
-
-    clickDateDeliveryButton(){
-        Utils.clickElement(this.elements.DeliveryDateProjectButton());
-    }
-
-
-    //TYPE ACTIONS
-
-    typeDescriptionOfProject(text){
-        Utils.clearAndTypeText(this.elements.DescriptionProjectText(),text)
-    }
-
-    typeNewAdmin(text){
-        Utils.typeAndPressEnter(this.elements.AdminText(), text);
-    }
-
     typeDateDeliveryProject(text){
         //clearAndTypeText(this.elements.StartDateProjectText(), text); 
-        Utils.clearAndTypeText(this.elements.FinishDateProjectText(),text)  
+        Utils.clearAndTypeText(proyectoPage.elements.FinishDateProjectText(),text)  
         this.elements.FinishDateProjectText().type('{enter}');
-    }
-
-    typeNameProjectText(text){
-        Utils.typeText(this.elements.NameProjectText(), text);
-    }
-
-    typeNewNameOfProject(text){
-        Utils.clearAndTypeText(this.elements.EditNameProjectText(), text);
-    }
-
-    //VERIFY ACTIONS
-    VerifyNewNameProjectIs(text){
-        verifyTextEquals(this.elements.NameProjectTextInProjectIs(), text);
-    }
-
-    VerifyPopUpConfirmDeleteProject(){
-        verifyTextEquals(this.elements.PopUpConfirmDeleteProject(), "Deshacer")
-    }
-
-    VerifyUseTemplateInProject(){
-        verifyTextEquals(this.elements.NameFirstSectionBoard(),"Diseño");
-    }
-
-    verifyProjectDetailsChanges(){
-        verifyElementTextEquals(this.elements.EditNameProjectText(), "PROfreddyEditOLI")
-        verifyTextEquals(this.elements.AdminButton(),"201704849@est.umss.edu")
-        verifyTextEquals(this.elements.DeliveryDateProjectButton(),"10 mar")
     }
 
 }
