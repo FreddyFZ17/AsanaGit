@@ -4,9 +4,6 @@ on:
   push:
     branches:
       - 'githubActions_and_Allure'
-  pull_request:
-    branches:
-      - 'githubActions_and_Allure'
 
 jobs:
   cypress:
@@ -33,7 +30,7 @@ jobs:
         run: npm install
 
       - name: Clear previous Allure reports
-        run: npm run allure:clear
+        run: npm run allure:clear || true  # Para evitar errores si no existen
 
       - name: Run Cypress tests
         run: npm run ui-regression-allure
@@ -41,7 +38,7 @@ jobs:
       - name: Generate Allure report
         run: npm run allure:report
 
-      - name: Upload Allure report
+      - name: Upload Allure report as artifact
         uses: actions/upload-artifact@v3
         with:
           name: allure-report
