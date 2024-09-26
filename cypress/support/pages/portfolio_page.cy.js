@@ -24,7 +24,7 @@ class PortfolioPage {
 
     //functionstask
     createPortfolio(name){
-        proyectoPage.clickOptionsProject();
+        Utils.clickElement(proyectoPage.elements.NewProjectOrPortfolio());
         Utils.clickElement(this.elements.CreatePortfolioOption());
         cy.wait(1000);
         Utils.typeText(this.elements.NamePortfolioText(), name);
@@ -34,7 +34,7 @@ class PortfolioPage {
     }
 
     deletePortfolio(name){
-        Utils.clickElement(this.elements.SeeAllPortfolioButton());
+        Utils.clickElementForce(this.elements.SeeAllPortfolioButton());
         Utils.searchElementByTextAndClick(this.elements.PortfolioList(),name);
         Utils.clickElement(this.elements.SeeOptionsPortfolioButton());
         Utils.clickElement(this.elements.DeletePortfolioOption());
