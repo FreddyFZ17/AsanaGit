@@ -1,30 +1,27 @@
-name: CI - Cypress Tests
+name: Cypress Tests
 
 on:
   push:
     branches:
-      - GitHubActions # Ejecuta en cada push al branch development
-  pull_request:
-    branches:
-      - GitHubActions # Ejecuta en cada PR al branch development
+      - 'githubActions_and_Allure'
 
 jobs:
-  cypress-run:
+  cypress:
     runs-on: ubuntu-latest
-    
+
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Setup Node.js
+      - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '20.15.1' # Usa la versión de Node.js que tienes en tu máquina
+          node-version: '20.15.1'
 
       - name: Cache Node.js modules
         uses: actions/cache@v3
         with:
-          path: node_modules
+          path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
@@ -32,30 +29,29 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Run Cypress tests with Allure
-        run: npm run ui-regression-allure
-        env:
-          CI: true
+      - name: Install Allure CLI
+        run: npm install -g allure-commandline --save-dev
+
+      - name: Clear previous Allure reports
+        run: npm run allure:clear || true
+
+      - name: Run Cypress tests
+        run: npm run ui-regression-allure || true
+
+      - name: List allure-results
+        run: ls -la allure-results/
 
       - name: Generate Allure report
-        run: |
-          npm run allure:report
-        if: always() # Siempre se ejecuta, sin importar si falla o no
+        run: allure generate allure-results --clean -o allure-report
 
-      - name: Upload Allure Report
-        uses: actions/upload-artifact@v3
+      - name: Upload Allure results as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results
+          path: allure-results/
+
+      - name: Upload Allure report as artifact
+        uses: actions/upload-artifact@v4
         with:
           name: allure-report
-          path: allure-report
-
-      - name: Upload screenshots and videos
-        uses: actions/upload-artifact@v3
-        with:
-          name: Cypress Screenshots and Videos
-          path: cypress/screenshots
-
-      - name: Notify failure
-        if: failure() # Este paso se ejecuta solo si alguno de los anteriores falla
-        run: |
-          echo "Algunas pruebas han fallado. Revisa los logs."
-          # Aquí puedes añadir un comando para enviar una notificación a Slack, correo, etc.
+          path: allure-report/

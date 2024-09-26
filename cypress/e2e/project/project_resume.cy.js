@@ -4,42 +4,42 @@ import {homePage} from "../../support/pages/home_page.cy"
 import { proyectoPageResume } from "../../support/pages/projectResume_page.cy";
 import Utils from "../../support/utils.cy";
 import { portfolioPage } from "../../support/pages/portfolio_page.cy";
-
+import data from "../../fixtures/data.json"
 
 describe("F: Gestión de Tareas en Asana", () => {
     beforeEach("Iniciar Sesion", () => {
-        cy.visit("https://app.asana.com/-/login");
-        loginPage.enterEmail("fernandezfreddy1707@gmail.com");
+        cy.visit(data.URL);
+        loginPage.enterEmail(data.loginData.email);
         loginPage.clickContinue();
-        loginPage.enterPassword("password1707");
+        loginPage.enterPassword(data.loginData.password);
         loginPage.clickLogin();
     });
 
     it("TC37: PR-Validar el flujo para la creacion de un nuevo portafolio y la asignacion de un proyecto al mismo",()=>{
-        portfolioPage.createPortfolio("portafolioParaProyecto");
-        proyectoPage.createSimpleProject("proyectoParaPortafolio");
+        portfolioPage.createPortfolio(data.portfolio.name.simple);
+        proyectoPage.createSimpleProject(data.project.name.simple);
         Utils.clickElement(portfolioPage.elements.ProjectSummary());
         Utils.clickElement(proyectoPageResume.elements.AddToPortfolioButton());
-        Utils.typeAndPressEnter(proyectoPageResume.elements.AddNamePortfolioText(), "portafolioParaProyecto");
+        Utils.typeAndPressEnter(proyectoPageResume.elements.AddNamePortfolioText(), data.portfolio.name.simple);
         Utils.clickElement(portfolioPage.elements.SeeAllPortfolioButton());
-        Utils.searchElementByTextAndClick(portfolioPage.elements.PortfolioList(), "portafolioParaProyecto");
-        Utils.verifyTextInMultipleElements(portfolioPage.elements.ListOfJobs(),"proyectoParaPortafolio");
-        portfolioPage.deletePortfolio("portafolioParaProyecto");
-        proyectoPage.deleteProject("proyectoParaPortafolio");
+        Utils.searchElementByTextAndClick(portfolioPage.elements.PortfolioList(), data.portfolio.name.simple);
+        Utils.verifyTextInMultipleElements(portfolioPage.elements.ListOfJobs(),data.project.name.simple);
+        portfolioPage.deletePortfolio(data.portfolio.name.simple);
+        proyectoPage.deleteProject(data.project.name.simple);
     })
 
     it("TC34: PR-Verificar el crud de mienbros con sus roles dentro de un proyecto",()=>{
-        proyectoPage.createSimpleProject("ProbarRoles");
+        proyectoPage.createSimpleProject(data.project.name.simple);
         Utils.clickElement(portfolioPage.elements.ProjectSummary());
-        proyectoPageResume.addNewMemberAndAssignRol("freddyfernandez778@gmail.com", "Administrador del proyecto");
-        proyectoPageResume.addNewMemberAndAssignRol("201704849@est.umss.edu", "Editor");
-        proyectoPageResume.addNewMemberAndAssignRol("correoValido@gmail.com","Autor del comentario");
-        proyectoPageResume.addNewMemberAndAssignRol("hola@gmail.com","Lector");
-        proyectoPageResume.deleteMember("hola@gmail.com");
-        proyectoPageResume.deleteMember("201704849@est.umss.edu");
-        proyectoPageResume.deleteMember("correoValido@gmail.com");
-        proyectoPageResume.deleteMember("freddyfernandez778@gmail.com");
-        proyectoPage.deleteProject("ProbarRoles");
+        proyectoPageResume.addNewMemberAndAssignRol(data.members.member1, data.roles.admin);
+        proyectoPageResume.addNewMemberAndAssignRol(data.members.member2, data.roles.editor);
+        proyectoPageResume.addNewMemberAndAssignRol(data.members.member3,data.roles.commentator);
+        proyectoPageResume.addNewMemberAndAssignRol(data.members.member4,data.roles.lector);
+        proyectoPageResume.deleteMember(data.members.member1);
+        proyectoPageResume.deleteMember(data.members.member2);
+        proyectoPageResume.deleteMember(data.members.member3);
+        proyectoPageResume.deleteMember(data.members.member4);
+        proyectoPage.deleteProject(data.project.name.simple);
     //Esta en veremos no me funciona pero tampoco estoy seguro por que falla cuando se trata de eliminar mienbros pero como a veces no se añaden ps falla
     })
 })

@@ -5,7 +5,7 @@ class Utils {
     }
 
     typeTextForce(element, text) {
-        element.should('be.visible').type(text, { force: true });
+        element.scrollIntoView().should('be.visible').type(text, { force: true });
     }
 
     clickElement(element) {
@@ -13,7 +13,7 @@ class Utils {
     }
 
     clickElementForce(element) {
-        element.should('be.visible').and('not.be.disabled').click({ force: true });
+        element.scrollIntoView().should('be.visible').and('not.be.disabled').click({ force: true });
     }
 
     clearAndTypeText(element, text) {
@@ -56,14 +56,37 @@ class Utils {
         });
     }
 
+    searchElementByPartialTextAndClick(selector, text) {
+        cy.get(selector).then($elements => { 
+            let found = false;
+    
+            $elements.each((index, element) => { 
+                const elementText = Cypress.$(element).text();
+                if (elementText.includes(text)) {
+                    found = true;
+                    cy.wrap(element).should('be.visible').click({ force: true }); // Clic en el elemento
+                    cy.log(`Click realizado en el elemento con texto parcial o completo '${text}': "${elementText}".`);
+                    return false; 
+                }
+            });
+            
+            if (!found) {
+                throw new Error(`Ninguno de los elementos seleccionados por "${selector}" contiene el texto parcial o completo "${text}".`);
+            }
+        });
+    }// Eliminar si no le encuentro utilidad
+    
+
     clickAndType(selector, text) {
         selector.click().type(text);
     }
 
     typeAndPressEnter(selector, text) {
-        selector.should('be.visible').type(`${text}{enter}`);
+        selector.should('be.visible').type(text); 
+        cy.wait(500); 
+        selector.type('{enter}'); 
     }
-
+    
 
     verifyTextInMultipleElements(selector, text) {
         selector.then($elements => {
@@ -81,6 +104,25 @@ class Utils {
             }
         });
     }
+
+    verifyPartialTextInMultipleElements(selector, text) {
+        selector.then($elements => {
+            let found = false;
+            
+            Cypress.$.each($elements, (index, element) => {
+                const elementText = Cypress.$(element).text();
+                if (elementText.includes(text)) {
+                    found = true;
+                    cy.log(`Elemento con texto parcial o completo '${text}' encontrado: "${elementText}".`); 
+                    return false; 
+                }
+            });
+            if (!found) {
+                throw new Error(`Ninguno de los elementos seleccionados por "${selector}" contiene el texto parcial o completo "${text}".`);
+            }
+        });
+    }//Eliminar si no le encuentro funcionalidad
+    
 
     getTextFromText(selector) {
         selector.invoke('text').as('savedText');

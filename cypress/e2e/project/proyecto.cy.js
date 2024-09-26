@@ -4,60 +4,60 @@ import {homePage} from "../../support/pages/home_page.cy"
 import Utils from "../../support/utils.cy";
 import { tareaPage } from "../../support/pages/tarea_page.cy";
 import { proyectoPageResume } from "../../support/pages/projectResume_page.cy";
-
+import data from "../../fixtures/data.json"
 
 describe("F1: Gestión de Tareas en Asana", () => {
     beforeEach("Iniciar Sesion", () => {
-        cy.visit("https://app.asana.com/-/login");
-        loginPage.enterEmail("fernandezfreddy1707@gmail.com");
+        cy.visit(data.URL);
+        loginPage.enterEmail(data.loginData.email);
         loginPage.clickContinue();
-        loginPage.enterPassword("password1707");
+        loginPage.enterPassword(data.loginData.password);
         loginPage.clickLogin();
     });
 
     it("TC1: Validar las operaciones CRUD (Crear, Leer, Actualizar y Eliminar) en un proyecto", () => {
-        proyectoPage.createSimpleProject("CRUD")
-        Utils.verifyTextInMultipleElements(proyectoPage.elements.ProjectListInNavVar(), "CRUD");
-        Utils.searchElementByTextAndClick(proyectoPage.elements.ProjectListInNavVar(),"CRUD");
-        proyectoPage.clickOptionsProjectButton();
-        proyectoPage.clickEditDetailsProjectOption();
-        proyectoPage.typeNewNameOfProject("CRUDSITO");
-        proyectoPage.typeDescriptionOfProject("descripcion de Crudsito")
-        proyectoPage.clickCloseEditProjectDetails()
-        tareaPage.clickMyTasks();
-        Utils.searchElementByTextAndClick(proyectoPage.elements.ProjectListInNavVar(),"CRUDSITO");
-        proyectoPage.clickOptionsProjectButton();
-        proyectoPage.clickEditDetailsProjectOption();
-        Utils.verifyTextEquals(proyectoPage.elements.DescriptionProjectText(), "descripcion de Crudsito");
-        proyectoPage.clickCloseEditProjectDetails()
-        proyectoPage.deleteProject("CRUDSITO")
+        proyectoPage.createSimpleProject(data.project.name.simple)
+        Utils.verifyTextInMultipleElements(proyectoPage.elements.ProjectListInNavVar(), data.project.name.simple);
+        Utils.searchElementByTextAndClick(proyectoPage.elements.ProjectListInNavVar(),data.project.name.simple);
+        Utils.clickElement(proyectoPage.elements.OptionsProjectButton());
+        Utils.clickElement(proyectoPage.elements.EditDetailsProjectOption());
+        Utils.clearAndTypeText(proyectoPage.elements.EditNameProjectText(),data.project.name.edited);
+        Utils.clearAndTypeText(proyectoPage.elements.DescriptionProjectText(),data.project.description);
+        Utils.clickElement(proyectoPage.elements.CloseEdiDetailsProject())
+        Utils.clickElement(tareaPage.elements.MyTaskButton());
+        Utils.searchElementByTextAndClick(proyectoPage.elements.ProjectListInNavVar(),data.project.name.edited);
+        Utils.clickElement(proyectoPage.elements.OptionsProjectButton());
+        Utils.clickElement(proyectoPage.elements.EditDetailsProjectOption());
+        Utils.verifyTextEquals(proyectoPage.elements.DescriptionProjectText(), data.project.description);
+        Utils.clickElement(proyectoPage.elements.CloseEdiDetailsProject())
+        proyectoPage.deleteProject(data.project.name.edited)
     });
 
     it("TC2: Verificar que se pueda crear un proyecto usando una plantilla predefinida", ()=>{
-        proyectoPage.createProjectWithTemplate("ProyectoConPlantillaLista", "Lista");
-        Utils.verifyTextInMultipleElements(proyectoPage.elements.NameSectionListProject(),"Hitos");
-        proyectoPage.createProjectWithTemplate("ProyectoConPlantillaTablero", "Tablero");
+        proyectoPage.createProjectWithTemplate(data.project.name.withListTemplate, data.templateType.list);
+        Utils.verifyTextInMultipleElements(proyectoPage.elements.NameSectionListProject(),data.sections.milestones);
+        proyectoPage.createProjectWithTemplate(data.project.name.withDashboardTemplate, data.templateType.dashboard);
         Utils.verifyElementExist(proyectoPage.elements.SecondSectionToDashboard());
-        proyectoPage.createProjectWithTemplate("ProyectoConPlantillaCronograma", "Cronograma");
-        Utils.verifyTextInMultipleElements(proyectoPage.elements.NameTaskInScheduleList(), "[Ejemplo] Desarrollar la página de inscripciones para el evento");
-        proyectoPage.deleteProject("ProyectoConPlantillaLista");
-        proyectoPage.deleteProject("ProyectoConPlantillaTablero");
-        proyectoPage.deleteProject("ProyectoConPlantillaCronograma");
+        proyectoPage.createProjectWithTemplate(data.project.name.withScheduleTemplate, data.templateType.schedule);
+        Utils.verifyTextInMultipleElements(proyectoPage.elements.NameTaskInScheduleList(), data.task.title.scheduleExample);
+        proyectoPage.deleteProject(data.project.name.withListTemplate);
+        proyectoPage.deleteProject(data.project.name.withDashboardTemplate);
+        proyectoPage.deleteProject(data.project.name.withScheduleTemplate);
     })
 
     it("TC3: Verificar que se pueda editar los detalles de un proyecto",()=>{
-        proyectoPage.createSimpleProject("TituloSinEditar");
-        proyectoPage.clickOptionsProjectButton();
-        proyectoPage.clickEditDetailsProjectOption();
-        proyectoPage.typeNewNameOfProject("TituloEditado");
-        proyectoPage.clickDateDeliveryButton();
-        proyectoPage.typeDateDeliveryProject("27/09/24");
-        proyectoPage.typeDescriptionOfProject("Descripcion");
-        proyectoPage.clickCloseEditProjectDetails();
+        proyectoPage.createSimpleProject(data.project.name.simple);
+        Utils.clickElement(proyectoPage.elements.OptionsProjectButton());
+        Utils.clickElement(proyectoPage.elements.EditDetailsProjectOption());
+        Utils.clearAndTypeText(proyectoPage.elements.EditNameProjectText(),data.project.name.edited);
+        Utils.clickElement(proyectoPage.elements.DeliveryDateProjectButton());
+        proyectoPage.typeDateDeliveryProject(data.date.forNextWeek);
+        Utils.clearAndTypeText(proyectoPage.elements.DescriptionProjectText(),data.project.description);
+        Utils.clickElement(proyectoPage.elements.CloseEdiDetailsProject())
         Utils.clickElement(proyectoPageResume.elements.ProjectResumeButton());
         cy.wait(2000);
-        Utils.verifyTextEquals(proyectoPageResume.elements.DescriptionProjectElement(),"Descripcion");
-        proyectoPage.deleteProject("TituloEditado");
+        Utils.verifyTextEquals(proyectoPageResume.elements.DescriptionProjectElement(),data.project.description);
+        proyectoPage.deleteProject(data.project.name.edited);
     })
 
     /*it("",()=>{

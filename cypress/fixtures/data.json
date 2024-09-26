@@ -1,0 +1,103 @@
+{
+    "URL":"https://app.asana.com/-/login",
+    "loginData":{
+        "email": "fernandezfreddy1707@gmail.com",
+        "password": "password1707",
+        "wrongEmail": "correoInvalido",
+        "wrongPassword": "contraseñaIncorrecta"
+    },
+    
+    "task": {
+        "title":{
+            "simple":"Tarea Simple",
+            "edited":"Tarea Editada",
+            "completed":"Tarea Finalizada",
+            "duplicated": "Duplicado de Tarea Simple",
+            "toThisWeek":"Tarea Para Entregar Esta Semana",
+            "forNextWeek":"Tarea Para Entregar La Proxima Semana",
+            "scheduleExample":"[Ejemplo] Desarrollar la página de inscripciones para el evento"
+        },
+        
+        "editedTittle":"Titulo Editado",
+        "completedTittle":"Tarea Finalizada",
+        "description":{
+            "simple":"Esto es una descripcion",
+            "edited":"Esto es una descripcion editada"
+        },
+        "comment":"Esto es un comentario"
+    },
+
+    "project": {
+        "name": {
+            "simple":"Proyecto Simple",
+            "edited":"Proyecto Editado",
+            "withListTemplate":"Proyecto Con Plantilla Tipo Lista",
+            "withDashboardTemplate":"Proyecto Con Plantilla Tipo Tablero",
+            "withScheduleTemplate":"Proyecto Con Plantilla Tipo Cronograma"
+        },
+        "description": "Esto es una descripcion de un proyecto"
+    },
+
+    "portfolio":{
+        "name":{
+            "simple":"Portafolio Simple",
+            "edited":"Portafolio Renombrado"
+        },
+        "description":"Esto es una descripcion de un portafolio"
+    },
+
+    "filters":{
+        "unfinishedTask":"Tareas sin finalizar",
+        "completedTask":"Tareas finalizadas",
+        "toThisWeek": "Para entregar esta semana",
+        "forNextWeek": "Para entregar la próxima semana"
+    },
+
+
+
+    "date":{
+        "toThisWeek": "20/09/24",
+        "forNextWeek":"27/09/24"
+    },
+
+    "groups":{
+        "sections":"Secciones",
+        "deliveryDate": "Fecha de entrega",
+        "creator":"Creador",
+        "projects":"Proyectos",
+        "date":"Fecha"
+    },
+
+    "members": {
+        "adminEmail": "201704849@est.umss.edu",
+        "member1":"freddyfernandez778@gmail.com",
+        "member2": "201704848@est.umss.edu",
+        "member3":"correoValido1@gmail.com",
+        "member4":"correoValido2@gmail.com",
+        "member5":"correoValido3@gmail.com"
+    },
+
+    "roles":{
+        "admin":"Administrador del proyecto",
+        "editor": "Editor",
+        "commentator":"Autor del comentario",
+        "lector":"Lector"
+    },
+
+    "templateType":{
+        "list":"Lista",
+        "dashboard":"Tablero",
+        "schedule":"Cronograma"
+    },
+
+    "sections":{
+        "milestones": "Hitos"
+    },
+
+    "item":{
+        "task":"Tareas",
+        "project": "Proyectos",
+        "portfolio": "Portafolios"
+    }
+
+}
